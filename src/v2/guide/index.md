@@ -16,7 +16,7 @@ If you are an experienced frontend developer and want to know how Vue compares t
 
 The easiest way to try out Vue.js is using the [JSFiddle Hello World example](https://jsfiddle.net/chrisvfritz/50wL7mdz/). Feel free to open it in another tab and follow along as we go through some basic examples. Or, you can <a href="https://gist.githubusercontent.com/chrisvfritz/7f8d7d63000b48493c336e48b3db3e52/raw/ed60c4e5d5c6fec48b0921edaed0cb60be30e87c/index.html" target="_blank" download="index.html">create an <code>index.html</code> file</a> and include Vue with:
 
-``` html
+```html
 <script src="https://unpkg.com/vue"></script>
 ```
 
@@ -31,14 +31,24 @@ At the core of Vue.js is a system that enables us to declaratively render data t
   {{ message }}
 </div>
 ```
-``` js
+
+{% multicodeblock js %}
+--- es5
 var app = new Vue({
   el: '#app',
   data: {
     message: 'Hello Vue!'
   }
 })
-```
+--- esnext
+const app = new Vue({
+  el: `#app`,
+  data: {
+    message: 'Hello Vue!'
+  }
+})
+{% endmulticodeblock %}
+
 {% raw %}
 <div id="app" class="demo">
   {{ message }}
@@ -65,14 +75,23 @@ In addition to text interpolation, we can also bind element attributes like this
   </span>
 </div>
 ```
-``` js
+
+{% multicodeblock js %}
+--- es5
 var app2 = new Vue({
   el: '#app-2',
   data: {
     message: 'You loaded this page on ' + new Date().toLocaleString()
   }
 })
-```
+--- esnext
+const app2 = new Vue({
+  el: '#app-2',
+  data: {
+    message: `You loaded this page on ${new Date().toLocaleString()}`
+  }
+})
+{% endmulticodeblock %}
 {% raw %}
 <div id="app-2" class="demo">
   <span v-bind:title="message">
@@ -374,3 +393,4 @@ You may have noticed that Vue components are very similar to **Custom Elements**
 ## Ready for More?
 
 We've briefly introduced the most basic features of Vue.js core - the rest of this guide will cover them and other advanced features with much finer details, so make sure to read through it all!
+

@@ -3,6 +3,7 @@
   initMobileMenu()
   if (PAGE_TYPE) {
     initVersionSelect()
+    initEcmaVersionSelect()
     initSubHeaders()
     initApiSpecLinks()
     initLocationHashFuzzyMatching()
@@ -150,6 +151,33 @@
         'vuejs.org/' + section + '/'
       )
     })
+  }
+
+  /**
+   * Ecma version select
+   */
+
+  function initEcmaVersionSelect () {
+    // ecma select
+    var ecmaSelect = document.querySelector('.ecma-select')
+    if (localStorage.ecmaVersion) {
+      ecmaSelect.value = localStorage.ecmaVersion
+    }
+    var version = ecmaSelect.value
+    ecmaSelect.addEventListener('change', function (e) {
+      version = localStorage.ecmaVersion = ecmaSelect.value
+      arrangeBlocks()
+    })
+
+    arrangeBlocks()
+
+    function arrangeBlocks() {
+      Array.prototype.forEach.call(document.querySelectorAll('.hexo-multi-codeblock'), function(block) {
+        Array.prototype.forEach.call(block.querySelectorAll('figure'), function(codeblock) {
+          codeblock.style.display = codeblock.getAttribute('slot') === version ? 'block' : 'none'
+        })
+      })
+    } 
   }
 
   /**
