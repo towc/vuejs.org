@@ -40,7 +40,7 @@ var app = new Vue({
     message: 'Hello Vue!'
   }
 })
---- esnext
+--- esnext typescript
 const app = new Vue({
   el: `#app`,
   data: {
@@ -122,14 +122,22 @@ It's easy to toggle the presence of an element, too:
 </div>
 ```
 
-``` js
+{% multicodeblock js %}
+--- es5
 var app3 = new Vue({
   el: '#app-3',
   data: {
     seen: true
   }
 })
-```
+--- esnext typescript
+const app3 = new Vue({
+  el: '#app-3',
+  data: {
+    seen: true
+  }
+})
+{% endmulticodeblock %}
 
 {% raw %}
 <div id="app-3" class="demo">
@@ -160,7 +168,9 @@ There are quite a few other directives, each with its own special functionality.
   </ol>
 </div>
 ```
-``` js
+
+{% multicodeblock js %}
+--- es5
 var app4 = new Vue({
   el: '#app-4',
   data: {
@@ -171,7 +181,18 @@ var app4 = new Vue({
     ]
   }
 })
-```
+--- esnext typescript
+const app4 = new Vue({
+  el: '#app-4',
+  data: {
+    todos: [
+      { text: 'Learn JavaScript' },
+      { text: 'Learn Vue' },
+      { text: 'Build something awesome' }
+    ]
+  }
+})
+{% endmulticodeblock %}
 {% raw %}
 <div id="app-4" class="demo">
   <ol>
@@ -206,7 +227,8 @@ To let users interact with your app, we can use the `v-on` directive to attach e
   <button v-on:click="reverseMessage">Reverse Message</button>
 </div>
 ```
-``` js
+{% multicodeblock js %}
+--- es5
 var app5 = new Vue({
   el: '#app-5',
   data: {
@@ -218,7 +240,20 @@ var app5 = new Vue({
     }
   }
 })
-```
+--- esnext typescript
+const app5 = new Vue({
+  el: '#app-5',
+  data: {
+    message: 'Hello Vue.js!'
+  },
+  methods: {
+    reverseMessage() {
+      this.message = this.message.split('').reverse().join('')
+    }
+  }
+})
+{% endmulticodeblock %}
+
 {% raw %}
 <div id="app-5" class="demo">
   <p>{{ message }}</p>
@@ -249,14 +284,23 @@ Vue also provides the `v-model` directive that makes two-way binding between for
   <input v-model="message">
 </div>
 ```
-``` js
+{% multicodeblock js %}
+--- es5
 var app6 = new Vue({
   el: '#app-6',
   data: {
     message: 'Hello Vue!'
   }
 })
-```
+--- esnext typescript
+const app6 = new Vue({
+  el: '#app-6',
+  data: {
+    message: 'Hello Vue!'
+  }
+})
+{% endmulticodeblock %}
+
 {% raw %}
 <div id="app-6" class="demo">
   <p>{{ message }}</p>
@@ -280,12 +324,13 @@ The component system is another important concept in Vue, because it's an abstra
 
 In Vue, a component is essentially a Vue instance with pre-defined options. Registering a component in Vue is straightforward:
 
-``` js
+{% multicodeblock js %}
+--- es5 esnext typescript
 // Define a new component called todo-item
 Vue.component('todo-item', {
   template: '<li>This is a todo</li>'
 })
-```
+{% endmulticodeblock %}
 
 Now you can compose it in another component's template:
 
@@ -298,7 +343,8 @@ Now you can compose it in another component's template:
 
 But this would render the same text for every todo, which is not super interesting. We should be able to pass data from the parent scope into child components. Let's modify the component definition to make it accept a [prop](components.html#Props):
 
-``` js
+{% multicodeblock js %}
+--- es5 esnext typescript
 Vue.component('todo-item', {
   // The todo-item component now accepts a
   // "prop", which is like a custom attribute.
@@ -306,7 +352,7 @@ Vue.component('todo-item', {
   props: ['todo'],
   template: '<li>{{ todo.text }}</li>'
 })
-```
+{% endmulticodeblock %}
 
 Now we can pass the todo into each repeated component using `v-bind`:
 
@@ -327,7 +373,8 @@ Now we can pass the todo into each repeated component using `v-bind`:
   </ol>
 </div>
 ```
-``` js
+{% multicodeblock js %}
+--- es5
 Vue.component('todo-item', {
   props: ['todo'],
   template: '<li>{{ todo.text }}</li>'
@@ -343,7 +390,23 @@ var app7 = new Vue({
     ]
   }
 })
-```
+--- esnext typescript
+Vue.component('todo-item', {
+  props: ['todo'],
+  template: '<li>{{ todo.text }}</li>'
+})
+
+const app7 = new Vue({
+  el: '#app-7',
+  data: {
+    groceryList: [
+      { id: 0, text: 'Vegetables' },
+      { id: 1, text: 'Cheese' },
+      { id: 2, text: 'Whatever else humans are supposed to eat' }
+    ]
+  }
+})
+{% endmulticodeblock %}
 {% raw %}
 <div id="app-7" class="demo">
   <ol>

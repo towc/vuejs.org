@@ -174,7 +174,7 @@
     function arrangeBlocks() {
       Array.prototype.forEach.call(document.querySelectorAll('.hexo-multi-codeblock'), function(block) {
         Array.prototype.forEach.call(block.querySelectorAll('figure'), function(codeblock) {
-          codeblock.style.display = codeblock.getAttribute('slot') === version ? 'block' : 'none'
+          codeblock.style.display = codeblock.getAttribute('slot').split(' ').indexOf(version) > -1 ? 'block' : 'none'
         })
       })
     } 
