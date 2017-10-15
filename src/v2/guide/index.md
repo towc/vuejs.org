@@ -32,22 +32,24 @@ At the core of Vue.js is a system that enables us to declaratively render data t
 </div>
 ```
 
-{% multicodeblock js %}
---- es5
+
+``` js
+/// es5
 var app = new Vue({
   el: '#app',
   data: {
     message: 'Hello Vue!'
   }
 })
---- esnext typescript
+/// esnext typescript
 const app = new Vue({
   el: `#app`,
   data: {
     message: 'Hello Vue!'
   }
 })
-{% endmulticodeblock %}
+```
+
 
 {% raw %}
 <div id="app" class="demo">
@@ -76,22 +78,24 @@ In addition to text interpolation, we can also bind element attributes like this
 </div>
 ```
 
-{% multicodeblock js %}
---- es5
+
+``` js
+/// es5
 var app2 = new Vue({
   el: '#app-2',
   data: {
     message: 'You loaded this page on ' + new Date().toLocaleString()
   }
 })
---- esnext
+/// esnext typescript
 const app2 = new Vue({
   el: '#app-2',
   data: {
     message: `You loaded this page on ${new Date().toLocaleString()}`
   }
 })
-{% endmulticodeblock %}
+```
+
 {% raw %}
 <div id="app-2" class="demo">
   <span v-bind:title="message">
@@ -122,22 +126,24 @@ It's easy to toggle the presence of an element, too:
 </div>
 ```
 
-{% multicodeblock js %}
---- es5
+
+``` js
+/// es5
 var app3 = new Vue({
   el: '#app-3',
   data: {
     seen: true
   }
 })
---- esnext typescript
+/// esnext typescript
 const app3 = new Vue({
   el: '#app-3',
   data: {
     seen: true
   }
 })
-{% endmulticodeblock %}
+```
+
 
 {% raw %}
 <div id="app-3" class="demo">
@@ -169,8 +175,9 @@ There are quite a few other directives, each with its own special functionality.
 </div>
 ```
 
-{% multicodeblock js %}
---- es5
+
+``` js
+/// es5
 var app4 = new Vue({
   el: '#app-4',
   data: {
@@ -181,7 +188,7 @@ var app4 = new Vue({
     ]
   }
 })
---- esnext typescript
+/// esnext typescript
 const app4 = new Vue({
   el: '#app-4',
   data: {
@@ -192,7 +199,8 @@ const app4 = new Vue({
     ]
   }
 })
-{% endmulticodeblock %}
+```
+
 {% raw %}
 <div id="app-4" class="demo">
   <ol>
@@ -227,8 +235,9 @@ To let users interact with your app, we can use the `v-on` directive to attach e
   <button v-on:click="reverseMessage">Reverse Message</button>
 </div>
 ```
-{% multicodeblock js %}
---- es5
+
+``` js
+/// es5
 var app5 = new Vue({
   el: '#app-5',
   data: {
@@ -240,7 +249,7 @@ var app5 = new Vue({
     }
   }
 })
---- esnext typescript
+/// esnext typescript
 const app5 = new Vue({
   el: '#app-5',
   data: {
@@ -252,7 +261,8 @@ const app5 = new Vue({
     }
   }
 })
-{% endmulticodeblock %}
+```
+
 
 {% raw %}
 <div id="app-5" class="demo">
@@ -284,22 +294,24 @@ Vue also provides the `v-model` directive that makes two-way binding between for
   <input v-model="message">
 </div>
 ```
-{% multicodeblock js %}
---- es5
+
+``` js
+/// es5
 var app6 = new Vue({
   el: '#app-6',
   data: {
     message: 'Hello Vue!'
   }
 })
---- esnext typescript
+/// esnext typescript
 const app6 = new Vue({
   el: '#app-6',
   data: {
     message: 'Hello Vue!'
   }
 })
-{% endmulticodeblock %}
+```
+
 
 {% raw %}
 <div id="app-6" class="demo">
@@ -324,13 +336,15 @@ The component system is another important concept in Vue, because it's an abstra
 
 In Vue, a component is essentially a Vue instance with pre-defined options. Registering a component in Vue is straightforward:
 
-{% multicodeblock js %}
---- es5 esnext typescript
+
+``` js
+/// es5 esnext typescript
 // Define a new component called todo-item
 Vue.component('todo-item', {
   template: '<li>This is a todo</li>'
 })
-{% endmulticodeblock %}
+```
+
 
 Now you can compose it in another component's template:
 
@@ -343,8 +357,9 @@ Now you can compose it in another component's template:
 
 But this would render the same text for every todo, which is not super interesting. We should be able to pass data from the parent scope into child components. Let's modify the component definition to make it accept a [prop](components.html#Props):
 
-{% multicodeblock js %}
---- es5 esnext typescript
+
+``` js
+/// es5 esnext typescript
 Vue.component('todo-item', {
   // The todo-item component now accepts a
   // "prop", which is like a custom attribute.
@@ -352,7 +367,8 @@ Vue.component('todo-item', {
   props: ['todo'],
   template: '<li>{{ todo.text }}</li>'
 })
-{% endmulticodeblock %}
+```
+
 
 Now we can pass the todo into each repeated component using `v-bind`:
 
@@ -373,8 +389,9 @@ Now we can pass the todo into each repeated component using `v-bind`:
   </ol>
 </div>
 ```
-{% multicodeblock js %}
---- es5
+
+``` js
+/// es5
 Vue.component('todo-item', {
   props: ['todo'],
   template: '<li>{{ todo.text }}</li>'
@@ -390,7 +407,7 @@ var app7 = new Vue({
     ]
   }
 })
---- esnext typescript
+/// esnext typescript
 Vue.component('todo-item', {
   props: ['todo'],
   template: '<li>{{ todo.text }}</li>'
@@ -406,7 +423,8 @@ const app7 = new Vue({
     ]
   }
 })
-{% endmulticodeblock %}
+```
+
 {% raw %}
 <div id="app-7" class="demo">
   <ol>

@@ -3,6 +3,7 @@
   initMobileMenu()
   if (PAGE_TYPE) {
     initVersionSelect()
+    initEcmaVersionSetup()
     initEcmaVersionSelect()
     initSubHeaders()
     initApiSpecLinks()
@@ -154,6 +155,88 @@
   }
 
   /**
+   * Ecma version setup
+   */
+  function initEcmaVersionSetup () {
+    /**
+     * this goes through already-marked code samples, and compartmentalizes them
+     * based on what the comment say, to put them in this format:
+     *
+     * pre.ecma-pre
+     *   div[slot=<language 1>]
+     *      <code 1>
+     *   div[slot=<language 2>]
+     *      <code 2>
+     *   ...
+     *   div[slot=<language n>]
+     *      <code n>
+     *
+     * every slot div can have multiple languages.
+     * This prepares it for the ecma version select
+     */
+
+    // get all the pres
+    // and relative slots
+    var pres = [];
+
+    Array.prototype.forEach.call(
+      Array.prototype.filter.call(document.querySelectorAll('span.comment'), function(commentEl) {
+        return commentEl.textContent.substring(0, 3) === '///'
+      }),
+      function(commentEl) {
+        var preEl = commentEl.parentElement.parentElement
+        if(pres.length === 0 || pres[pres.length - 1].el !== preEl) {
+
+          preEl.classList.add('ecma-pre')
+          pres.push({
+            el: preEl,
+            blocks: [],
+          })
+        }
+
+        var lineEl = commentEl.parentElement
+        pres[pres.length - 1].blocks.push({
+          nodeIndex: Array.prototype.indexOf.call(preEl.childNodes, lineEl),
+          slots: commentEl.textContent.substring(3, Infinity).trim(),
+        })
+
+        // remove the comment
+        preEl.removeChild(lineEl)
+      }
+    )
+
+    pres.forEach(function(pre) {
+      // reversing so the childnodes I'm concerned with don't mutate
+      pre.blocks.reverse()
+      pre.blocks.forEach(function(block, i) {
+        // create the div element
+        var divEl = document.createElement('div');
+        divEl.setAttribute('slot', block.slots);
+
+        // get all elements to be inside of the div
+        var lineEls = Array.prototype.slice.call(pre.el.childNodes, block.nodeIndex, Infinity)
+
+        Array.prototype.forEach.call(lineEls, function(lineEl) {
+          // remove all lineEls from the pre
+          pre.el.removeChild(lineEl)
+
+          // add it to the new div
+          divEl.appendChild(lineEl)
+        })
+
+        block.el = divEl;
+
+      })
+
+      pre.blocks.forEach(function(block) {
+        pre.el.appendChild(block.el)
+      })
+    })
+
+    
+  }
+
+  /**
    * Ecma version select
    */
 
@@ -172,8 +255,8 @@
     arrangeBlocks()
 
     function arrangeBlocks() {
-      Array.prototype.forEach.call(document.querySelectorAll('.hexo-multi-codeblock'), function(block) {
-        Array.prototype.forEach.call(block.querySelectorAll('figure'), function(codeblock) {
+      Array.prototype.forEach.call(document.querySelectorAll('.ecma-pre'), function(block) {
+        Array.prototype.forEach.call(block.querySelectorAll('div[slot]'), function(codeblock) {
           codeblock.style.display = codeblock.getAttribute('slot').split(' ').indexOf(version) > -1 ? 'block' : 'none'
         })
       })
